@@ -1,0 +1,129 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+    id              String   @id @default(uuid())
+    username        String   @unique
+    password        String
+    email           String   @unique
+    phoneNumber     String   @unique
+    firstName       String
+    lastName        String
+    avatar          String?
+    role            Role     @default(USER)
+    isEmailVerified Boolean  @default(false)
+    isPhoneVerified Boolean  @default(true)
+    createdAt       DateTime @default(now())
+    updatedAt       DateTime @updatedAt
+
+    videos    Video[]
+    comments  Comment[]
+    likes     Like[]
+    playlists Playlist[]
+}
+
+model Video {
+    id            String     @id @default(uuid())
+    title         String
+    description   String?
+    thumbnail     String?
+    videoUrl      String
+    visibility    Visibility @default(PUBLIC)
+    viewsCount    Int        @default(0)
+    likesCount    Int        @default(0)
+    dislikesCount Int        @default(0)
+    createdAt     DateTime   @default(now())
+
+    authorId      String
+    author        User            @relation(fields: [authorId], references: [id], onDelete: Cascade)
+    comments      Comment[]
+    likes         Like[]
+    PlaylistVideo PlaylistVideo[]
+}
+
+model VideoJobResult {
+    id      String @id @default(uuid())
+    jobId   String @unique
+    videoId String
+
+    createdAt DateTime @default(now())
+
+    @@map("video_job_result")
+}
+
+model Comment {
+    id         String   @id @default(uuid())
+    content    String
+    likesCount Int      @default(0)
+    createdAt  DateTime @default(now())
+
+    authorId String
+    author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+    videoId  String
+    video    Video  @relation(fields: [videoId], references: [id], onDelete: Cascade)
+    likes    Like[]
+}
+
+model Like {
+    id        String   @id @default(uuid())
+    type      LikeType
+    createdAt DateTime @default(now())
+
+    userId    String
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    videoId   String?
+    video     Video?   @relation(fields: [videoId], references: [id], onDelete: Cascade)
+    commentId String?
+    comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+    @@unique([userId, videoId, type])
+    @@unique([userId, commentId, type])
+}
+
+model Playlist {
+    id          String     @id @default(uuid())
+    title       String
+    description String?
+    visibility  Visibility @default(PUBLIC)
+    createdAt   DateTime   @default(now())
+
+    authorId String
+    author   User            @relation(fields: [authorId], references: [id], onDelete: Cascade)
+    videos   PlaylistVideo[]
+}
+
+model PlaylistVideo {
+    id       String   @id @default(cuid())
+    position Int
+    addedAt  DateTime @default(now())
+
+    playlistId String
+    playlist   Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+    videoId    String
+    video      Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+
+    @@unique([playlistId, videoId])
+}
+
+enum LikeType {
+    LIKE
+    DISLIKE
+}
+
+enum Role {
+    SUPERADMIN
+    ADMIN
+    USER
+}
+
+enum Visibility {
+    PUBLIC
+    UNLISTED
+    PRIVATE
+}

@@ -120,11 +120,15 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:4000/api/auth/send-otp",
+					"raw": "http://16.171.55.235:3000/api/auth/send-otp",
+					"protocol": "http",
 					"host": [
-						"localhost"
+						"16",
+						"171",
+						"55",
+						"235"
 					],
-					"port": "4000",
+					"port": "3000",
 					"path": [
 						"api",
 						"auth",
@@ -149,12 +153,15 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:4000/api/auth/verify-otp",
+					"raw": "http://16.171.55.235:3000/api/auth/verify-otp",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"16",
+						"171",
+						"55",
+						"235"
 					],
-					"port": "4000",
+					"port": "3000",
 					"path": [
 						"api",
 						"auth",
@@ -179,12 +186,15 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:4000/api/auth/register",
+					"raw": "http://16.171.55.235:3000/api/auth/register",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"16",
+						"171",
+						"55",
+						"235"
 					],
-					"port": "4000",
+					"port": "3000",
 					"path": [
 						"api",
 						"auth",
@@ -201,7 +211,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"username\": \"superadmin\",\n    \"password\": \"!Password111\"\n}",
+					"raw": "{\n    \"username\": \"superadmin\",\n    \"password\": \"SuPeR@dmin***111\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -209,12 +219,15 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:4000/api/auth/login",
+					"raw": "http://16.171.55.235:3000/api/auth/login",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"16",
+						"171",
+						"55",
+						"235"
 					],
-					"port": "4000",
+					"port": "3000",
 					"path": [
 						"api",
 						"auth",
@@ -230,12 +243,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:4000/api/auth/logout",
+					"raw": "http://16.171.55.235:3000/api/auth/logout",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"16",
+						"171",
+						"55",
+						"235"
 					],
-					"port": "4000",
+					"port": "3000",
 					"path": [
 						"api",
 						"auth",
@@ -247,16 +263,31 @@
 		},
 		{
 			"name": "getProfile",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:4000/api/users/me",
+					"raw": "http://16.171.55.235:3000/api/users/me",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"16",
+						"171",
+						"55",
+						"235"
 					],
-					"port": "4000",
+					"port": "3000",
 					"path": [
 						"api",
 						"users",
@@ -272,12 +303,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:4000/api/users/me",
+					"raw": "http://16.171.55.235:3000/api/users/me",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"16",
+						"171",
+						"55",
+						"235"
 					],
-					"port": "4000",
+					"port": "3000",
 					"path": [
 						"api",
 						"users",
@@ -298,17 +332,20 @@
 						{
 							"key": "file",
 							"type": "file",
-							"src": "/home/shohabbos/Pictures/Background pictures/Abstract Dragon final.jpg"
+							"src": "postman-cloud:///1f008df4-2a4c-4830-9b90-1fe09ef17748"
 						}
 					]
 				},
 				"url": {
-					"raw": "http://localhost:4000/api/users/avatar",
+					"raw": "http://16.171.55.235:3000/api/users/avatar",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"16",
+						"171",
+						"55",
+						"235"
 					],
-					"port": "4000",
+					"port": "3000",
 					"path": [
 						"api",
 						"users",
@@ -324,12 +361,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:4000/api/users/confirm-email",
+					"raw": "http://16.171.55.235:3000/api/users/confirm-email",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"16",
+						"171",
+						"55",
+						"235"
 					],
-					"port": "4000",
+					"port": "3000",
 					"path": [
 						"api",
 						"users",
@@ -345,12 +385,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:4000/api/users/update-password",
+					"raw": "http://16.171.55.235:3000/api/users/update-password",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"16",
+						"171",
+						"55",
+						"235"
 					],
-					"port": "4000",
+					"port": "3000",
 					"path": [
 						"api",
 						"users",
@@ -375,12 +418,15 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:4000/api/users/change-password",
+					"raw": "http://16.171.55.235:3000/api/users/change-password",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"16",
+						"171",
+						"55",
+						"235"
 					],
-					"port": "4000",
+					"port": "3000",
 					"path": [
 						"api",
 						"users",
@@ -414,17 +460,20 @@
 						{
 							"key": "file",
 							"type": "file",
-							"src": "/home/shohabbos/Downloads/105 MINUTE - TIMER & ALARM - 1080p - COUNTDOWN.mp4"
+							"src": "/home/shohabbos/Downloads/1321208-uhd_3840_2160_30fps.mp4"
 						}
 					]
 				},
 				"url": {
-					"raw": "http://localhost:4000/api/videos/upload",
+					"raw": "http://16.171.55.235:3000/api/videos/upload",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"16",
+						"171",
+						"55",
+						"235"
 					],
-					"port": "4000",
+					"port": "3000",
 					"path": [
 						"api",
 						"videos",
@@ -440,17 +489,20 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:4000/api/videos/status/16",
+					"raw": "http://16.171.55.235:3000/api/videos/status/17",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"16",
+						"171",
+						"55",
+						"235"
 					],
-					"port": "4000",
+					"port": "3000",
 					"path": [
 						"api",
 						"videos",
 						"status",
-						"16"
+						"17"
 					]
 				}
 			},
@@ -462,12 +514,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:4000/api/videos/ae219291-0be8-4a44-97c0-d43c25b1b10a",
+					"raw": "http://16.171.55.235:3000/api/videos/ae219291-0be8-4a44-97c0-d43c25b1b10a",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"16",
+						"171",
+						"55",
+						"235"
 					],
-					"port": "4000",
+					"port": "3000",
 					"path": [
 						"api",
 						"videos",
@@ -483,12 +538,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:4000/api/videos/watch/:url/?quality=360p",
+					"raw": "http://16.171.55.235:3000/api/videos/watch/:url/?quality=360p",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"16",
+						"171",
+						"55",
+						"235"
 					],
-					"port": "4000",
+					"port": "3000",
 					"path": [
 						"api",
 						"videos",
@@ -518,16 +576,25 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:4000/api/videos/183c5d94-b3a0-4722-93c7-e2adee807d10",
+					"raw": "http://16.171.55.235:3000/api/videos/:id",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"16",
+						"171",
+						"55",
+						"235"
 					],
-					"port": "4000",
+					"port": "3000",
 					"path": [
 						"api",
 						"videos",
-						"183c5d94-b3a0-4722-93c7-e2adee807d10"
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "39d6c0e2-10f9-47d0-88b7-fb2d140817f3"
+						}
 					]
 				}
 			},
@@ -539,12 +606,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:4000/api/videos/like/:video_id",
+					"raw": "http://16.171.55.235:3000/api/videos/like/:video_id",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"16",
+						"171",
+						"55",
+						"235"
 					],
-					"port": "4000",
+					"port": "3000",
 					"path": [
 						"api",
 						"videos",
@@ -567,12 +637,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:4000/api/videos/dislike/:video_id",
+					"raw": "http://16.171.55.235:3000/api/videos/dislike/:video_id",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"16",
+						"171",
+						"55",
+						"235"
 					],
-					"port": "4000",
+					"port": "3000",
 					"path": [
 						"api",
 						"videos",
@@ -604,12 +677,15 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:4000/api/comments/:video_id",
+					"raw": "http://16.171.55.235:3000/api/comments/:video_id",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"16",
+						"171",
+						"55",
+						"235"
 					],
-					"port": "4000",
+					"port": "3000",
 					"path": [
 						"api",
 						"comments",
@@ -631,12 +707,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:4000/api/comments/:video_id?limit=20&page=1&sort=asc",
+					"raw": "http://16.171.55.235:3000/api/comments/:video_id?limit=20&page=1&sort=asc",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"16",
+						"171",
+						"55",
+						"235"
 					],
-					"port": "4000",
+					"port": "3000",
 					"path": [
 						"api",
 						"comments",
@@ -672,12 +751,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:4000/api/comments/like/:comment_id",
+					"raw": "http://16.171.55.235:3000/api/comments/like/:comment_id",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"16",
+						"171",
+						"55",
+						"235"
 					],
-					"port": "4000",
+					"port": "3000",
 					"path": [
 						"api",
 						"comments",
@@ -700,12 +782,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:4000/api/comments/dislike/:comment_id",
+					"raw": "http://16.171.55.235:3000/api/comments/dislike/:comment_id",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"16",
+						"171",
+						"55",
+						"235"
 					],
-					"port": "4000",
+					"port": "3000",
 					"path": [
 						"api",
 						"comments",

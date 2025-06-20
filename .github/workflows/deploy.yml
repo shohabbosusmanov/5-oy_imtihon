@@ -22,22 +22,25 @@ jobs:
         run: |
           echo "$SSH_PRIVATE_KEY" > private_key.pem
           chmod 600 private_key.pem
-          ssh -i private_key.pem -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_HOST << EOF
+
+          cat > .env << EOF
+          PORT=$PORT
+          DATABASE_URL=$DATABASE_URL
+          DATABASE_USER=$DATABASE_USER
+          DATABASE_PASSWORD=$DATABASE_PASSWORD
+          DATABASE_DB=$DATABASE_DB
+          REDIS_HOST=$REDIS_HOST
+          REDIS_PORT=$REDIS_PORT
+          EOF
+
+          scp -i private_key.pem -o StrictHostKeyChecking=no .env $SERVER_USER@$SERVER_HOST:/home/ubuntu/app/
+
+          ssh -i private_key.pem -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_HOST << 'EOF'
           set -e
           cd /home/ubuntu/app || exit 1
-          echo "Получаем последний код..."
           git pull origin main
-          echo "Очищаем старые контейнеры..."
           docker-compose down --volumes --remove-orphans || true
           docker image prune -af || true
           docker container prune -f || true
-          echo "Запускаем docker-compose с переменными окружения..."
-          DATABASE_USER='$DATABASE_USER' \
-          DATABASE_PASSWORD='$DATABASE_PASSWORD' \
-          DATABASE_DB='$DATABASE_DB' \
-          DATABASE_URL='$DATABASE_URL' \
-          PORT='$PORT' \
-          REDIS_HOST='$REDIS_HOST' \
-          REDIS_PORT='$REDIS_PORT' \
           docker-compose up -d --build
           EOF

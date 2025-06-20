@@ -26,6 +26,8 @@ model User {
     comments  Comment[]
     likes     Like[]
     playlists Playlist[]
+
+    @@map("users")
 }
 
 model Video {
@@ -45,6 +47,8 @@ model Video {
     comments      Comment[]
     likes         Like[]
     PlaylistVideo PlaylistVideo[]
+
+    @@map("videos")
 }
 
 model VideoJobResult {
@@ -68,6 +72,8 @@ model Comment {
     author User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
     video  Video  @relation(fields: [videoId], references: [id], onDelete: Cascade)
     likes  Like[]
+
+    @@map("comments")
 }
 
 model Like {
@@ -84,6 +90,7 @@ model Like {
 
     @@unique([userId, videoId, type])
     @@unique([userId, commentId, type])
+    @@map("likes")
 }
 
 model Playlist {
@@ -96,6 +103,8 @@ model Playlist {
     authorId String
     author   User            @relation(fields: [authorId], references: [id], onDelete: Cascade)
     videos   PlaylistVideo[]
+
+    @@map("playlists")
 }
 
 model PlaylistVideo {
@@ -109,6 +118,7 @@ model PlaylistVideo {
     video      Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
 
     @@unique([playlistId, videoId])
+    @@map("playlist_video")
 }
 
 enum LikeType {

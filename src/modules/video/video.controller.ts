@@ -4,6 +4,7 @@ import {
   Controller,
   Delete,
   Get,
+  InternalServerErrorException,
   Param,
   Post,
   Put,
@@ -25,6 +26,8 @@ import { JwtGuard } from 'src/common/guards/auth.guard';
 import { SkipResponseInterceptor } from 'src/common/interseptors/response.interceptor';
 import { Request, Response } from 'express';
 import { UpdateVideoDto } from './dto/update-video.dto';
+import { CreateCommentDto } from '../comment/dto/create-comment.dto';
+import { LikeType } from '@prisma/client';
 
 @Controller('videos')
 export class VideoController {
@@ -127,5 +130,19 @@ export class VideoController {
     const user_id = req['user_id'];
 
     return await this.videoService.deleteVideo(user_id, id);
+  }
+
+  @UseGuards(JwtGuard)
+  @Get('like/:video_id')
+  async likeVideo(@Param('video_id') video_id: string, @Req() req: Request) {
+    const user_id = req['user_id'];
+    return await this.videoService.likeVideo(user_id, video_id);
+  }
+
+  @UseGuards(JwtGuard)
+  @Get('dislike/:video_id')
+  async dislikeVideo(@Param('video_id') video_id: string, @Req() req: Request) {
+    const user_id = req['user_id'];
+    return await this.videoService.dislikeVideo(user_id, video_id);
   }
 }

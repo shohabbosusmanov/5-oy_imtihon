@@ -62,12 +62,12 @@ model Comment {
     content    String
     likesCount Int      @default(0)
     createdAt  DateTime @default(now())
+    authorId   String
+    videoId    String
 
-    authorId String
-    author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
-    videoId  String
-    video    Video  @relation(fields: [videoId], references: [id], onDelete: Cascade)
-    likes    Like[]
+    author User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+    video  Video  @relation(fields: [videoId], references: [id], onDelete: Cascade)
+    likes  Like[]
 }
 
 model Like {

@@ -13,6 +13,8 @@ import { PrismaService } from 'src/core/database/prisma.service';
 import { UploadVideoDto } from './dto/upload-video.dto';
 import { Response } from 'express';
 import { UpdateVideoDto } from './dto/update-video.dto';
+import { CreateCommentDto } from '../comment/dto/create-comment.dto';
+import { LikeType } from '@prisma/client';
 
 @Injectable()
 export class VideoService {
@@ -181,6 +183,13 @@ export class VideoService {
 
   async watchVideo(url: string, quality: string, range: string, res: Response) {
     try {
+      const video = await this.prisma.video.findFirst({
+        where: { videoUrl: url },
+      });
+
+      if (video?.visibility != 'PUBLIC')
+        throw new ForbiddenException('access to this video is forbidden');
+
       const basePath = path.join(process.cwd(), 'uploads', 'videos');
       const videoDir = path.join(basePath, url);
       const fileName = `${quality}.mp4`;
@@ -280,6 +289,138 @@ export class VideoService {
       } catch (error) {}
 
       return { message: 'video deleted', data: deletedVideo };
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
+  async likeVideo(user_id: string, video_id: string) {
+    try {
+      const video = await this.prisma.video.findUnique({
+        where: { id: video_id },
+        include: {
+          author: {
+            select: {
+              username: true,
+              firstName: true,
+              lastName: true,
+            },
+          },
+          comments: true,
+          likes: true,
+          PlaylistVideo: true,
+        },
+      });
+
+      if (!video) throw new NotFoundException('video not found');
+
+      const existingLike = await this.prisma.like.findUnique({
+        where: {
+          userId_videoId_type: {
+            userId: user_id,
+            videoId: video_id,
+            type: LikeType.LIKE,
+          },
+        },
+      });
+
+      const existingDislike = await this.prisma.like.findUnique({
+        where: {
+          userId_videoId_type: {
+            userId: user_id,
+            videoId: video_id,
+            type: LikeType.DISLIKE,
+          },
+        },
+      });
+
+      if (existingLike) {
+        throw new BadRequestException('You have already liked this video');
+      }
+
+      if (existingDislike) {
+        await this.prisma.like.delete({
+          where: {
+            id: existingDislike.id,
+          },
+        });
+      }
+
+      await this.prisma.video.update({
+        where: { id: video_id },
+        data: {
+          likesCount: { increment: 1 },
+        },
+      });
+
+      const like = await this.prisma.like.create({
+        data: { type: LikeType.LIKE, videoId: video_id, userId: user_id },
+      });
+
+      return { data: like };
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
+  async dislikeVideo(user_id: string, video_id: string) {
+    try {
+      const video = await this.prisma.video.findUnique({
+        where: { id: video_id },
+      });
+
+      if (!video) {
+        throw new NotFoundException('video not found');
+      }
+
+      const existingLike = await this.prisma.like.findUnique({
+        where: {
+          userId_videoId_type: {
+            userId: user_id,
+            videoId: video_id,
+            type: LikeType.LIKE,
+          },
+        },
+      });
+
+      const existingDislike = await this.prisma.like.findUnique({
+        where: {
+          userId_videoId_type: {
+            userId: user_id,
+            videoId: video_id,
+            type: LikeType.DISLIKE,
+          },
+        },
+      });
+
+      if (existingDislike) {
+        throw new BadRequestException('You have already disliked this video');
+      }
+
+      if (existingLike) {
+        await this.prisma.like.delete({
+          where: { id: existingLike.id },
+        });
+
+        if (video.likesCount > 0) {
+          await this.prisma.video.update({
+            where: { id: video_id },
+            data: {
+              likesCount: { decrement: 1 },
+            },
+          });
+        }
+      }
+
+      const dislike = await this.prisma.like.create({
+        data: {
+          type: LikeType.DISLIKE,
+          videoId: video_id,
+          userId: user_id,
+        },
+      });
+
+      return { data: dislike };
     } catch (error) {
       throw new InternalServerErrorException(error);
     }

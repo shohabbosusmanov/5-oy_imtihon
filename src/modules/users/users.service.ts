@@ -12,6 +12,7 @@ import { EmailService } from './email.service';
 import { OtpService } from '../auth/otp.service';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import bcrypt from 'bcryptjs';
+import path from 'path';
 
 @Injectable()
 export class UsersService {
@@ -72,19 +73,27 @@ export class UsersService {
   }
 
   async updateAvatar(id: string, file_path: string) {
+    const baseUrl = process.env.SERVER_URL || 'http://localhost:4000';
     try {
       return await this.prisma.$transaction(async (tx) => {
         const user = await tx.user.findUnique({ where: { id } });
 
+        console.log(file_path.split('uploads'), baseUrl);
+
         try {
           if (user?.avatar) {
-            fs.unlinkSync(user.avatar);
+            const filePath = path.join(
+              'uploads',
+              user.avatar.split('static')[1],
+            );
+            fs.unlinkSync(filePath);
           }
         } catch (error) {}
+        const fileUrl = `${baseUrl}/static${file_path.split('uploads')[1]}`;
 
         await tx.user.update({
           where: { id },
-          data: { avatar: file_path },
+          data: { avatar: fileUrl },
         });
 
         return { message: 'avatar updated' };

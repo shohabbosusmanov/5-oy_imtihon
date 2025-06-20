@@ -6,6 +6,7 @@ import { VideoModule } from './modules/video/video.module';
 import { BullModule } from '@nestjs/bull';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { CommentModule } from './modules/comment/comment.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { join } from 'path';
     AuthModule,
     UsersModule,
     VideoModule,
+    CommentModule,
   ],
   controllers: [],
   providers: [],

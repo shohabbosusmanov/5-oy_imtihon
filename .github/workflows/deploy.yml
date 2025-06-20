@@ -12,35 +12,86 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SERVER_HOST: ${{ secrets.SERVER_HOST }}
           SERVER_USER: ${{ secrets.SERVER_USER }}
+          # Database переменные
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           DATABASE_USER: ${{ secrets.DATABASE_USER }}
           DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
           DATABASE_DB: ${{ secrets.DATABASE_DB }}
+          # Server переменные
           PORT: ${{ secrets.PORT }}
+          SERVER_URL: ${{ secrets.SERVER_URL }}
+          # Redis переменные
           REDIS_HOST: ${{ secrets.REDIS_HOST }}
           REDIS_PORT: ${{ secrets.REDIS_PORT }}
+          # Email переменные
+          ESKIZ_EMAIL: ${{ secrets.ESKIZ_EMAIL }}
+          ESKIZ_PASSWORD: ${{ secrets.ESKIZ_PASSWORD }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_PASS: ${{ secrets.GMAIL_PASS }}
+          # Auth переменные
+          JWT_KEY: ${{ secrets.JWT_KEY }}
+          # Admin переменные
+          SUPER_ADMIN_USERNAME: ${{ secrets.SUPER_ADMIN_USERNAME }}
+          SUPER_ADMIN_EMAIL: ${{ secrets.SUPER_ADMIN_EMAIL }}
+          SUPER_ADMIN_PASSWORD: ${{ secrets.SUPER_ADMIN_PASSWORD }}
         run: |
           echo "$SSH_PRIVATE_KEY" > private_key.pem
           chmod 600 private_key.pem
 
+          # Создаем .env файл локально со всеми переменными
           cat > .env << EOF
-          PORT=$PORT
+          # Database Configuration
           DATABASE_URL=$DATABASE_URL
           DATABASE_USER=$DATABASE_USER
           DATABASE_PASSWORD=$DATABASE_PASSWORD
           DATABASE_DB=$DATABASE_DB
+
+          # Server Configuration
+          PORT=$PORT
+          SERVER_URL=$SERVER_URL
+
+          # Redis Configuration
           REDIS_HOST=$REDIS_HOST
           REDIS_PORT=$REDIS_PORT
+
+          # Email Configuration
+          ESKIZ_EMAIL=$ESKIZ_EMAIL
+          ESKIZ_PASSWORD=$ESKIZ_PASSWORD
+          GMAIL_USER=$GMAIL_USER
+          GMAIL_PASS=$GMAIL_PASS
+
+          # Authentication
+          JWT_KEY=$JWT_KEY
+
+          # Super Admin Configuration
+          SUPER_ADMIN_USERNAME=$SUPER_ADMIN_USERNAME
+          SUPER_ADMIN_EMAIL=$SUPER_ADMIN_EMAIL
+          SUPER_ADMIN_PASSWORD=$SUPER_ADMIN_PASSWORD
           EOF
 
+          # Копируем .env файл на сервер
           scp -i private_key.pem -o StrictHostKeyChecking=no .env $SERVER_USER@$SERVER_HOST:/home/ubuntu/app/
 
+          # Выполняем команды деплоя на сервере
           ssh -i private_key.pem -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_HOST << 'EOF'
           set -e
           cd /home/ubuntu/app || exit 1
+          echo "Pulling latest code..."
           git pull origin main
+          echo "Cleaning up old containers..."
           docker-compose down --volumes --remove-orphans || true
           docker image prune -af || true
           docker container prune -f || true
+          echo "Checking .env file..."
+          if [ -f .env ]; then
+            echo ".env file found"
+            head -n 5 .env
+          else
+            echo "ERROR: .env file not found!"
+            exit 1
+          fi
+          echo "Starting docker-compose..."
           docker-compose up -d --build
+          echo "Checking container status..."
+          docker-compose ps
           EOF

@@ -19,6 +19,8 @@ jobs:
           DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
           DATABASE_DB: ${{ secrets.DATABASE_DB }}
           PORT: ${{ secrets.PORT }}
+          REDIS_REDIS_HOSTHOST: ${{secrets.REDIS_HOST}}
+          REDIS_PORT: ${{secrets.REDIS_PORT}}
         run: |
           echo "$SSH_PRIVATE_KEY" > private_key.pem
           chmod 600 private_key.pem
@@ -36,11 +38,14 @@ jobs:
             docker image prune -af || true
             docker container prune -f || true
 
-            echo "Starting docker-compose with environment variables..."
-            DATABASE_USER=$DATABASE_USER \
-            DATABASE_PASSWORD=$DATABASE_PASSWORD \
-            DATABASE_DB=$DATABASE_DB \
-            DATABASE_URL=$DATABASE_URL \
-            PORT=$PORT \
+            echo "Starting docker-compose with env variables..."
+
+            export DATABASE_USER=$DATABASE_USER
+            export DATABASE_PASSWORD=$DATABASE_PASSWORD
+            export DATABASE_DB=$DATABASE_DB
+            export DATABASE_URL=$DATABASE_URL
+            export PORT=$PORT
+            export REDIS_HOST=$REDIS_HOST
+            export REDIS_PORT=$REDIS_PORT
             docker-compose up -d --build
           EOF

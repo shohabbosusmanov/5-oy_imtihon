@@ -33,6 +33,7 @@ export class UsersService {
           lastName: true,
           phoneNumber: true,
           email: true,
+          avatar: true,
           createdAt: true,
           updatedAt: true,
         },
@@ -62,6 +63,7 @@ export class UsersService {
           username: true,
           firstName: true,
           lastName: true,
+          avatar: true,
           updatedAt: true,
         },
       });

@@ -1,0 +1,46 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Server
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SERVER_HOST: ${{ secrets.SERVER_HOST }}
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DATABASE_USER: ${{ secrets.DATABASE_USER }}
+          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+          DATABASE_DB: ${{ secrets.DATABASE_DB }}
+          PORT: ${{ secrets.PORT }}
+        run: |
+          echo "$SSH_PRIVATE_KEY" > private_key.pem
+          chmod 600 private_key.pem
+
+          ssh -i private_key.pem -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_HOST << EOF
+            set -e
+
+            cd /home/ubuntu/10-dars/loyiha1 || exit 1
+
+            echo "Pulling latest code..."
+            git pull origin main
+
+            echo "Cleaning up old containers..."
+            docker-compose down --volumes --remove-orphans || true
+            docker image prune -af || true
+            docker container prune -f || true
+
+            echo "Starting docker-compose with environment variables..."
+            DATABASE_USER=$DATABASE_USER \
+            DATABASE_PASSWORD=$DATABASE_PASSWORD \
+            DATABASE_DB=$DATABASE_DB \
+            DATABASE_URL=$DATABASE_URL \
+            PORT=$PORT \
+            docker-compose up -d --build
+          EOF

@@ -151,6 +151,8 @@ export class AuthService {
 
       return token;
     } catch (error) {
+      console.log(error.message);
+
       throw new InternalServerErrorException('server error');
     }
   }

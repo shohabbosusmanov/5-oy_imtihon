@@ -1,0 +1,726 @@
+{
+	"info": {
+		"_postman_id": "d4458380-b829-40a1-a048-95b3f9b8b34c",
+		"name": "5-oy_imtihon",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42650204"
+	},
+	"item": [
+		{
+			"name": "Получить токен",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "llegion630@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "QwDN68y9PF1PTrUqsiBCJdNB3hVRvaXmkiWThpF8",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "notify.eskiz.uz/api/auth/login",
+					"host": [
+						"notify",
+						"eskiz",
+						"uz"
+					],
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				},
+				"description": "Для авторизации используйте этот API, возвращает токен"
+			},
+			"response": [
+				{
+					"name": "пример",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "vash@email.uz",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "vash_sekretniy_kod_s_kabineta",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "notify.eskiz.uz/api/auth/login",
+							"host": [
+								"notify",
+								"eskiz",
+								"uz"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": "{\r\n    \"message\": \"token_generated\",\r\n    \"data\": {\r\n        \"token\": \"Ваш токен\"\r\n    },\r\n    \"token_type\": \"bearer\"\r\n}"
+				}
+			]
+		},
+		{
+			"name": "send_otp",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTIzNzk0NDAsImlhdCI6MTc0OTc4NzQ0MCwicm9sZSI6InVzZXIiLCJzaWduIjoiNDU2NGNiZmEyMzE3ZWYwOTZiNTgwNzE4Yjg4ODkyNzNlNWRjNDAwMTBlZmFkMzRjN2QyYmRlY2ZhMWZjZjU2ZCIsInN1YiI6IjEwMDk2In0.QCawuKEgUOZZuRNEnnD5dgEt1rh6gF3sFMhINX2ejfU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"phone_number\": \"+998990005310\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4000/api/auth/send-otp",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"auth",
+						"send-otp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "verify_otp",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"phoneNumber\": \"+998990005310\",\n    \"code\": \"512336\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/auth/verify-otp",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"auth",
+						"verify-otp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"username\",\n    \"email\": \"example@gmail.com\",\n    \"phoneNumber\": \"+998990005310\",\n    \"firstName\": \"firstName\",\n    \"lastName\": \"lastName\",\n    \"password\": \"123456789\", \n    \"session_token\": \"5077c0b4-1471-4a22-82d5-08b6a09d7cb9\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/auth/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"superadmin\",\n    \"password\": \"!Password111\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/auth/logout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"auth",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getProfile",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/users/me",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"users",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateProfile",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/users/me",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"users",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateAvatar",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/home/shohabbos/Pictures/Background pictures/Abstract Dragon final.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/users/avatar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"users",
+						"avatar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "confirm-email",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/users/confirm-email",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"users",
+						"confirm-email"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updatePassword",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/users/update-password",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"users",
+						"update-password"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "changePassword",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"session_token\": \"9c6cc481-126e-4e75-8756-a65fbcabaacd\",\n    \"new_password\": \"987654321\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/users/change-password",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"users",
+						"change-password"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "uploadVideo",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "title",
+							"value": "test",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "desc",
+							"type": "text"
+						},
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/home/shohabbos/Downloads/105 MINUTE - TIMER & ALARM - 1080p - COUNTDOWN.mp4"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/videos/upload",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"videos",
+						"upload"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getVideoStatus",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/videos/status/16",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"videos",
+						"status",
+						"16"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getVideoData",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/videos/ae219291-0be8-4a44-97c0-d43c25b1b10a",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"videos",
+						"ae219291-0be8-4a44-97c0-d43c25b1b10a"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "watchVideo",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/videos/watch/:url/?quality=360p",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"videos",
+						"watch",
+						":url",
+						""
+					],
+					"query": [
+						{
+							"key": "quality",
+							"value": "360p"
+						}
+					],
+					"variable": [
+						{
+							"key": "url",
+							"value": "f9cc8d3c-a44b-4f0a-9f4f-e05566d7d834"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteVideo",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/videos/183c5d94-b3a0-4722-93c7-e2adee807d10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"videos",
+						"183c5d94-b3a0-4722-93c7-e2adee807d10"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "likeVideo",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/videos/like/:video_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"videos",
+						"like",
+						":video_id"
+					],
+					"variable": [
+						{
+							"key": "video_id",
+							"value": "04623993-128f-403e-ae7b-cbf48fed93dc"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "dislikeVideo",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/videos/dislike/:video_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"videos",
+						"dislike",
+						":video_id"
+					],
+					"variable": [
+						{
+							"key": "video_id",
+							"value": "04623993-128f-403e-ae7b-cbf48fed93dc"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add_comment",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"content\": \"sccdacsc\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/comments/:video_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"comments",
+						":video_id"
+					],
+					"variable": [
+						{
+							"key": "video_id",
+							"value": "04623993-128f-403e-ae7b-cbf48fed93dc"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_comments",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/comments/:video_id?limit=20&page=1&sort=asc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"comments",
+						":video_id"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "20"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "sort",
+							"value": "asc"
+						}
+					],
+					"variable": [
+						{
+							"key": "video_id",
+							"value": "04623993-128f-403e-ae7b-cbf48fed93dc"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "like_comment",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/comments/like/:comment_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"comments",
+						"like",
+						":comment_id"
+					],
+					"variable": [
+						{
+							"key": "comment_id",
+							"value": "34237970-3ad6-4264-91b5-3e5c232b839e"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "dislike_comment",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/comments/dislike/:comment_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"comments",
+						"dislike",
+						":comment_id"
+					],
+					"variable": [
+						{
+							"key": "comment_id",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
